@@ -47,11 +47,39 @@ class Biblioteca:
                     print("Invalid ISBN. Please try again")
                     continue
                 
-                user.take_book(book)
-                print(book.borrow())
+                print(user.take_book(book))
+                book.borrow()
                 ok = False
             except Exception as e:
                 print(f"An error occurred: {e}")
                 
-    def return_book(self, isbn):
-        return 
+    def return_book(self, user):
+        user_books = user.get_borrowed_books()
+        
+        if not user_books:
+            raise ValueError(f"{user} hasn't borrowed any book")
+        
+        print(f"{user} books:")
+        for isbn, book in user_books:
+            print(f"ISBN: {isbn} - {book.title}")
+        
+        ok = True
+        while ok:
+            try:
+                isbn = input("Type the isbn of the chosen book or 0 to cancel")
+                if isbn == "0":
+                    print("Operation canceled.")
+                    ok = False
+                    continue
+                
+                book = user_books.get(isbn)
+                if not book:
+                    print("Invalid ISBN. Please try again")
+                    continue
+                
+                print(user.return_book(book))
+                book.return_book()
+                ok = False
+            except Exception as e:
+                print(f"An error occurred: {e}")
+    
