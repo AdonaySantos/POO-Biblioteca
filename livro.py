@@ -6,7 +6,7 @@ class Livros:
         self.title = title
         self.genre = genre
         self.author = author
-        self.id = isbn
+        self.__isbn = isbn
         self.available = True
     
     def borrow(self):
@@ -14,4 +14,9 @@ class Livros:
             raise ValueError("This book is not available!")
 
         self.available = False
-        return "The book " + self.title + " was successsfully borrowed"
+    
+    def return_book(self):
+        if self.available:
+            raise ValueError("This book is available!")
+        
+        self.available = True
